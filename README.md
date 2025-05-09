@@ -38,18 +38,65 @@ This is a simple **Todo List API** built with Go. The application allows users t
    go mod tidy
    ```
 
-3. Run the application:
+3. Generate frontend assets (CSS and JS):
 
    ```bash
-   go run cmd/web/api.go
+   npm install
+   npm run build
    ```
 
-4. The server will start on `http://localhost:8080`.
+4. Run the application:
+
+   ```bash
+   go run cmd/web/main.go
+   ```
+
+5. The server will start on `http://localhost:8080`.
 
 ## Configuration
 
 - **Data Storage**: Tasks are stored in `data/todos.json`. If the file or directory does not exist, it will be created automatically.
 - **Port**: The application runs on port `8080` by default.
+
+## Frontend
+
+The frontend is built using **Tailwind CSS** and **TypeScript**. The assets are located in the `styles/` and `scripts/` directories and are compiled into the `public/` directory.
+
+### Commands to Build Frontend Assets
+
+- **Build CSS**:
+
+  ```bash
+  npm run build:css
+  ```
+
+  This command compiles the Tailwind CSS file (`styles/main.css`) into `public/styles.css`.
+
+- **Build JavaScript**:
+
+  ```bash
+  npm run build:js
+  ```
+
+  This command bundles the TypeScript files (`scripts/main.ts`) into `public/scripts.js`.
+
+- **Watch for Changes**:
+  ```bash
+  npm run watch
+  ```
+  This command watches for changes in CSS and TypeScript files and automatically rebuilds the assets.
+
+### Frontend Assets
+
+- **CSS**: The compiled CSS file is located at `public/styles.css`.
+- **JavaScript**: The bundled JavaScript file is located at `public/scripts.js`.
+
+Ensure these files are included in your HTML templates:
+
+```html
+<link href="/assets/styles.css" rel="stylesheet" />
+<script src="/assets/scripts.js"></script>
+```
 
 ## Example Usage
 
@@ -82,10 +129,6 @@ curl -X PATCH -H "Content-Type: application/json" -d '{"description": "Buy groce
 ```bash
 curl -X DELETE http://localhost:8080/api/todos/1
 ```
-
-## Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 ## License
 

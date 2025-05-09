@@ -1,0 +1,28 @@
+{
+  "name": "go_todo",
+  "version": "1.0.0",
+  "description": "This is a simple **Todo List API** built with Go. The application allows users to manage their tasks through a RESTful API. It supports operations such as creating, retrieving, updating, and deleting tasks. The tasks are stored in a JSON file (`data/todos.json`).",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i styles/main.css -o public/styles.css",
+    "watch:css": "tailwindcss -i styles/main.css -o public/styles.css --watch",
+    "build:js": "esbuild scripts/main.ts --bundle --outfile=public/scripts.js",
+    "watch:js": "esbuild scripts/main.ts --bundle --outfile=public/scripts.js --watch",
+    "build": "npm run build:css && npm run build:js",
+    "watch": "npm run watch:js & npm run watch:css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.5",
+    "htmx.org": "^2.0.4",
+    "tailwindcss": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "daisyui": "^5.0.35",
+    "esbuild": "^0.25.4",
+    "typescript": "^5.2.2"
+  }
+}

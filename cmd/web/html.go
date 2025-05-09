@@ -26,14 +26,18 @@ func TodoPage(w http.ResponseWriter, r *http.Request) {
 
 	funcMap := template.FuncMap{
 		"formatTime": formatDate,
+		"add":        add,
+		"time":       getTime,
 	}
 
-	tmpl, err := template.New("todoTemplate").Funcs(funcMap).ParseFiles("templates/todos.html")
+	tmpl, err := template.New("todoTemplate").Funcs(funcMap).ParseFiles(
+		"templates/index.html", "templates/todos.html", "templates/modal.html", "templates/header.html",
+	)
 	if err != nil {
 		http.Error(nil, err.Error(), http.StatusInternalServerError)
 	}
 
-	tmpl = tmpl.Lookup("todos.html")
+	tmpl = tmpl.Lookup("index.html")
 	if tmpl == nil {
 		http.Error(nil, err.Error(), http.StatusInternalServerError)
 	}

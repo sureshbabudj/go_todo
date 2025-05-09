@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"io"
 	"net/http"
 	"strconv"
@@ -48,6 +49,35 @@ func GetAllTodos(w http.ResponseWriter, r *http.Request) {
 	taskItems, err := ReadJsonFile()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	acceptHeader := r.Header.Get("Accept")
+	if acceptHeader == "text/html" {
+		w.Header().Set("Content-Type", "text/html")
+
+		funcMap := template.FuncMap{
+			"formatTime": formatDate,
+			"add":        add,
+		}
+
+		tmpl, err := template.New("my").Funcs(funcMap).ParseFiles("templates/todos.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		data := struct {
+			Tasks []Task
+		}{
+			Tasks: taskItems,
+		}
+
+		err = tmpl.ExecuteTemplate(w, "todoList", data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -134,7 +164,10 @@ func UpdateTodoById(w http.ResponseWriter, r *http.Request, taskId uint64) {
 		return
 	}
 
-	taskItems[foundId].Description = updatePayload.Description
+	if updatePayload.Description != "" {
+		taskItems[foundId].Description = updatePayload.Description
+	}
+
 	taskItems[foundId].Done = updatePayload.Done
 	taskItems[foundId].UpdatedAt = time.Now()
 

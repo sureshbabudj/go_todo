@@ -11,6 +11,7 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 tmp
+public
 
 # Go workspace file
 go.work
